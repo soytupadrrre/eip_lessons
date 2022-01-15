@@ -77,7 +77,9 @@ def main(master: list[Asignatura], output: str):
             out_name = f"M1 Lección{leccion.leccion} {asignatura.nombre} - {leccion.nombre}"
             if asignatura.nombre == "Complementarios":
                 out_name = f"{leccion.nombre}"
-            os.rename(f"{output}/{asignatura.nombre}/{title}.mp4", f"{output}/{asignatura.nombre}/{out_name}.mp4")
+            output_path = f"{output}/{asignatura.nombre}/{out_name}.mp4"
+            if not os.path.exists(output_path):
+                os.rename(f"{output}/{asignatura.nombre}/{title}.mp4", output_path)
 
 if __name__ == "__main__":
     args = arguments()
