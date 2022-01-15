@@ -1,0 +1,49 @@
+[
+    {
+        "nombre": "nombre_asignatura",
+        "lecciones": [
+        {
+            "nombre": "leccion_1",
+            "leccion" : 1,
+            "url": ""
+        },
+        {
+            "nombre": "leccion_2",
+            "leccion" : 2,
+            "url": ""
+        },
+        {
+            "nombre": "leccion_3",
+            "leccion" : 3,
+            "url": ""
+        },
+        {
+            "nombre": "leccion_4",
+            "leccion" : 4,
+            "url": ""
+        },
+        {
+            "nombre": "leccion_5",
+            "leccion" : 5,
+            "url": ""
+        },
+        {
+            "nombre": "leccion_6",
+            "leccion" : 6,
+            "url": ""
+        },
+        {
+            "nombre": "leccion_7",
+            "leccion" : 7,
+            "url": ""
+        },
+        {
+            "nombre": "leccion_8",
+            "leccion" : 8,
+            "url": ""
+        }],
+        "profesor": "Nombre Apellido",
+        "creditos": "Y",
+        "horas": "X"
+    }
+]
