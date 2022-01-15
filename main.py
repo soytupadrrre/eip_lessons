@@ -8,6 +8,9 @@ from tqdm import tqdm
 import time
 
 class Asignatura():
+    """
+    Asignatura class
+    """
     def __init__(self, nombre: str, lecciones: list, creditos: int, horas: int, profesor: str):
         self.nombre = nombre
         self.creditos = creditos
@@ -18,6 +21,9 @@ class Asignatura():
         return str(f"Asignatura: {self.nombre}")
 
 class Leccion():
+    """
+    Leccion class
+    """
     def __init__(self, nombre: str, url: str, leccion: int):
         self.nombre = nombre
         self.url = url
@@ -29,6 +35,16 @@ class Leccion():
     
 
 def yt_download(folder: str, video: str):
+    """
+    Download a video from youtube
+
+    :param folder: Output folder
+    :type folder: str
+    :param video: Video url
+    :type video: str
+    :return: Title of the video
+    :rtype: str
+    """
     yt = YouTube(video)
     stream = yt.streams.get_highest_resolution()# Get max resolution
 
@@ -42,7 +58,13 @@ def yt_download(folder: str, video: str):
         break
     return yt.title
 
-def arguments():
+def arguments() -> ArgumentParser:
+    """
+    Parse arguments
+
+    :return: Parsed arguments
+    :rtype: ArgumentParser
+    """
     parser = ArgumentParser(description="Download videos from youtube")
     parser.add_argument("-f", "--file", help="Json file with list of videos")
     parser.add_argument("-o", "--output", help="Output folder")
@@ -50,6 +72,14 @@ def arguments():
     return args
 
 def parse_json(file: str) -> list[Asignatura]:
+    """
+    Parse json file and return a list of Asignatura
+
+    :param file: Json file
+    :type file: str
+    :return: list of Asignatura
+    :rtype: list[Asignatura]
+    """
     with open(file, "r", encoding="utf-8") as f:
         asignaturas = json.load(f)
     f.close()
@@ -64,9 +94,20 @@ def parse_json(file: str) -> list[Asignatura]:
     return res
 
 def main(master: list[Asignatura], output: str):
+    """
+    Main function
+
+    :param master: list of Asignatura
+    :type master: list[Asignatura]
+    :param output: Output folder
+    :type output: str
+    """
+    # Special Chars on title
     special_chars = ["/", "\\", ":", "*", "?", "\"", "<", ">", "|", ",", ".", ";", "!", "'", "`", "¡"]
+    # Validate directories
     if not os.path.exists(output):
         os.mkdir(output)
+    # Begin Download
     for asignatura in tqdm(master, desc="Downloading", unit="asignaturas"):
         os.mkdir(f"{output}/{asignatura.nombre}")
         for leccion in tqdm(asignatura.lecciones, desc="Downloading", unit="lecciones"):
@@ -79,9 +120,13 @@ def main(master: list[Asignatura], output: str):
                 out_name = f"{leccion.nombre}"
             output_path = f"{output}/{asignatura.nombre}/{out_name}.mp4"
             if not os.path.exists(output_path):
+                # Rename file
                 os.rename(f"{output}/{asignatura.nombre}/{title}.mp4", output_path)
 
 if __name__ == "__main__":
+    """
+    Launch script
+    """
     args = arguments()
     master = parse_json(args.file)
     output = args.output
