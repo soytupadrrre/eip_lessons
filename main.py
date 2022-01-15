@@ -66,8 +66,8 @@ def arguments() -> ArgumentParser:
     :rtype: ArgumentParser
     """
     parser = ArgumentParser(description="Download videos from youtube")
-    parser.add_argument("-f", "--file", help="Json file with list of videos")
-    parser.add_argument("-o", "--output", help="Output folder")
+    parser.add_argument("-f", "--file", help="Json file with list of videos", required=True)
+    parser.add_argument("-o", "--output", help="Output folder", required=True)
     args = parser.parse_args()
     return args
 
