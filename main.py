@@ -34,7 +34,7 @@ class Leccion():
 
     
 
-def yt_download(folder: str, video: str):
+def yt_download(video: str, folder: str="."):
     """
     Download a video from youtube
 
@@ -66,7 +66,8 @@ def arguments() -> ArgumentParser:
     :rtype: ArgumentParser
     """
     parser = ArgumentParser(description="Download videos from youtube")
-    parser.add_argument("-f", "--file", help="Json file with list of videos", required=True)
+    parser.add_argument("-f", "--file", help="Json file with list of videos")
+    parser.add_argument("-u", "--url", help="Video url")
     parser.add_argument("-o", "--output", help="Output folder", required=True)
     args = parser.parse_args()
     return args
@@ -109,9 +110,10 @@ def main(master: list[Asignatura], output: str):
         os.mkdir(output)
     # Begin Download
     for asignatura in tqdm(master, desc="Downloading", unit="asignaturas"):
-        os.mkdir(f"{output}/{asignatura.nombre}")
+        if not os.path.exists(f"{output}/{asignatura.nombre}"):
+            os.mkdir(f"{output}/{asignatura.nombre}")
         for leccion in tqdm(asignatura.lecciones, desc="Downloading", unit="lecciones"):
-            title = yt_download(f"{output}/{asignatura.nombre}", leccion.url)
+            title = yt_download(leccion.url, f"{output}/{asignatura.nombre}")
             # Remove special characters from title
             for char in special_chars:
                 title = title.replace(char, "")
@@ -128,6 +130,9 @@ if __name__ == "__main__":
     Launch script
     """
     args = arguments()
-    master = parse_json(args.file)
-    output = args.output
-    main(master, output)
+    if args.file:
+        master = parse_json(args.file)
+        output = args.output
+        main(master, output)
+    else:
+        yt_download(args.url, folder=args.output)

@@ -1,4 +1,4 @@
 master_eip/*
-venv/*
-master_ciberseguridad.json
+.venv/*
+master_*.json
 __pycache__/*
